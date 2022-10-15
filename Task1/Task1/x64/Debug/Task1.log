@@ -1,3 +1,0 @@
-﻿  Task1.cpp
-C:\Users\pletk\EVM\Task1\Task1\Task1.cpp(13,2): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  Task1.vcxproj -> C:\Users\pletk\EVM\Task1\x64\Debug\Task1.exe
