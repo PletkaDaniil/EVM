@@ -1,17 +1,65 @@
-#include <iostream>
-#include <string>
+/*
+#pragma once
 
-int main() {
-	int n;
-	std::cin >> n;
-	std::string s("");
-	while (n > 0) {
-		s += std::to_string(n % 2);
-		n /= 2;
+typedef unsigned __int16 WORD;
+typedef unsigned __int32 DWORD;
+typedef unsigned __int32 LONG;
+
+struct BITMAPFILEHEADER{
+	WORD bfType;
+	DWORD bfSize;
+	WORD bfReserved1;
+	WORD bfReserved2;
+	DWORD bfOffBits;
+};
+
+struct BITMAPINFOHEADER{
+	DWORD biSize;
+	LONG biWidth;
+	LONG biHeight;
+	WORD biPlanes;
+	WORD biBitCount;
+	DWORD biCompression;
+	DWORD biSizeImage;
+	LONG biXPelsPerMeter;
+	LONG biYPelsPerMeter;
+	DWORD biClrUsed;
+	DWORD biClrImportant;
+};
+*/
+
+#include <iostream>
+#include <fstream>
+#include "Header.h"
+
+int main(int argc, char* argv[]){
+	if (argc < 2) {
+		std::cerr << "Something goes wrong" << std::endl;
 	}
-	std::string result;
-	for (int i = s.size()-1; i >= 0; --i){
-		result += s[i];
+
+	BITMAPFILEHEADER filehdr;
+	BITMAPINFOHEADER bmphdr;
+
+	std::ifstream fsrc(argv[1], std::ios_base::binary);
+
+	if (!fsrc.is_open()) {
+		std::cout << "Ошибка чтения графического файла";
 	}
-	std::cout << result << std::endl;
+
+	fsrc.read((char*)&filehdr, sizeof(BITMAPFILEHEADER));
+	if (fsrc.fail()) {
+		std::cout << "Ошибка чтения заголовка файла BMP";
+	}
+
+	//std::cout << filehdr << std::endl;
+
+	fsrc.read((char*)&bmphdr, sizeof(BITMAPINFOHEADER));
+	if (fsrc.fail()) {
+		std::cout << "Ошибка чтения информационного заголовка файла BMP";
+	}
+
+	//std::cout << filehdr << std::endl;
+	
+	fsrc.close();
+	return 0;
 }
